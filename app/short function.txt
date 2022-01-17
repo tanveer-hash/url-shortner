@@ -1,0 +1,22 @@
+@app.route('/<path:path>', methods=["GET", "POST"])
+def short(path):
+    print(path)
+    if path == "":
+        return render_template("index.html")
+    else:
+        shortnedid = path
+        search_key = "{}".format(shortnedid)
+
+        myquery = {"shortid": search_key}
+        mydoc = mydb.find_one(myquery)
+        
+        if mydoc != None:
+            link2 = mydoc.get("url")
+            s = link2
+            if s is not None:
+                if s.find("http://") != 0 and s.find("https://") != 0:
+                    s = "http://" + s
+            return redirect(s)
+
+        else:
+            return render_template("404.html")

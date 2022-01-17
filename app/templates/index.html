@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en" >
+
+<head>
+  <meta charset="UTF-8">
+  <title>Search Box Focus Effect</title>
+      <style >
+	  html {
+  background-color: #ccc;
+}
+
+form {
+  display: block;
+  left: 50%;
+  position: absolute;
+  top: 40%;
+}
+form input[type=search] {
+  border: solid 3px #fff;
+  box-sizing: border-box;
+  font-size: 2em;
+  height: 2em;
+  margin-left: -15vw;
+  outline: grey;
+  padding: .5em;
+  transition: all 1s ease-in;
+  width: 30vw;
+  z-index: 1;
+}
+form input[type=search]:focus {
+  border: solid 3px #09f;
+  outline: solid black 2000px;
+}
+</style>
+
+  
+</head>
+
+<body>
+  
+  <form action="/shorten" method="post" id="todo-form">
+  <input type="search" name= "url1" id ="url" placeholder="Enter Link...">
+</form>
+  
+  
+
+</body>
+
+</html>

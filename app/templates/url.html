@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<style>
+
+form {
+  display: block;
+  left: 50%;
+  position: absolute;
+  top: 40%;
+
+}
+form input[type=text] {
+  border: solid 3px #fff;
+  box-sizing: border-box;
+  font-size: 2em;
+  height: 2em;
+  margin-left: -15vw;
+  outline: grey;
+  padding: .5em;
+  transition: all 1s ease-in;
+  width: 30vw;
+  z-index: 1;
+}
+
+.tooltiptext {
+  left: 40%;
+  top : 50%;
+  position: absolute;
+  display: inline-block;
+  font-size: 16px;
+  padding: 16px;
+  color: white;
+  background-color: green;
+  border-radius: 1px;
+  border-radius: 1px;
+  cursor: pointer;
+}
+
+</style>
+</head>
+<body>
+<form>
+<input type="text" value="{{url | safe}}" id="myInput"></form>
+
+<div class="tooltip">
+<button onclick="myFunction()" onmouseout="outFunc()">
+  <span class="tooltiptext" id="myTooltip">    Copy to clipboard   </span>
+  </button>
+</div>
+</body>
+<script>
+function myFunction() {
+  var copyText = document.getElementById("myInput");
+  copyText.select();
+  copyText.setSelectionRange(0, 99999);
+  navigator.clipboard.writeText(copyText.value);
+  
+  var tooltip = document.getElementById("myTooltip");
+  tooltip.innerHTML = ".     Copied      .";
+}
+
+function outFunc() {
+  var tooltip = document.getElementById("myTooltip");
+  tooltip.innerHTML = "Copy to clipboard";
+}
+</script>
+</body>
+</html>

@@ -1,0 +1,55 @@
+<!doctype html>
+
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <title>Captcha</title>
+  <meta name="author" content="SitePoint">
+
+  <meta property="og:title" content="A Basic HTML5 Template">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://www.sitepoint.com/a-basic-html5-template/">
+  <meta property="og:description" content="A simple HTML5 Template for new projects.">
+  <meta property="og:image" content="image.png">
+
+  <link rel="icon" href="/favicon.ico">
+  <link rel="apple-touch-icon" href="/apple-touch-icon.png">
+
+  <link rel="stylesheet" href="css/styles.css?v=1.0">
+  <style >
+	  html {
+  background-color: #ccc;
+}
+.captcha_wrapper{
+  position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%,-50%);
+}
+.x{
+  font-size: 16px;
+  padding: 12px;
+  color: whitesmoke;
+  background-color: green;
+  border-radius: 4px;
+  border: green;
+  margin-left: 30%;
+  cursor: pointer;
+}
+</style>
+</head>
+
+<body>
+  <!-- your content here... -->
+  <div class="captcha_wrapper">
+	  <script src='https://www.hCaptcha.com/1/api.js' async defer></script>
+	  
+	  <form  action="captcha" method="post">
+      <div class="h-captcha" data-sitekey="{{sitekey | safe }}"></div>
+		<input class="x" type="submit"  value="Submit"  />
+	  </form>
+  </div>
+</body>
+</html>

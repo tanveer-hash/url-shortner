@@ -1,0 +1,26 @@
+html {
+  background-color: #ccc;
+}
+
+todo-form {
+  display: block;
+  left: 50%;
+  position: absolute;
+  top: 40%;
+}
+todo-form input[type=search] {
+  border: solid 3px #fff;
+  box-sizing: border-box;
+  font-size: 2em;
+  height: 2em;
+  margin-left: -15vw;
+  outline: grey;
+  padding: .5em;
+  transition: all 1s ease-in;
+  width: 30vw;
+  z-index: 1;
+}
+todo-form input[type=search]:focus {
+  border: solid 3px #09f;
+  outline: solid black 2000px;
+}

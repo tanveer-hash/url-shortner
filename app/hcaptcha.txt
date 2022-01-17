@@ -1,0 +1,28 @@
+7c2cb41b-33ec-444b-b4e6-4b958fee3931
+
+secret 
+
+0xaA78115d6Ab159691Ba39FfA3B7Ab8361e97Ca21
+
+
+
+
+
+
+
+
+
+
+Site Key 10000000-ffff-ffff-ffff-000000000001 Secret Key 0x08Bd197E4E9BD3eDa9b8ca509ef9dbE433ec0D70
+
+Test Key Set: Enterprise Account (Safe End User)
+
+Test parameter Value
+
+Site Key 20000000-ffff-ffff-ffff-000000000002 Secret Key 0x0000000000000000000000000000000000000000
+
+Test Key Set: Enterprise Account (Bot Detected)
+
+Test parameter Value
+
+Site Key 30000000-ffff-ffff-ffff-000000000003 Secret Key 0x08Bd197E4E9BD3eDa9b8ca509ef9dbE433ec0D70
