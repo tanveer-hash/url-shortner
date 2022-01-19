@@ -39,6 +39,9 @@ app.config["DEBUG"] = True
 myclient =  MongoClient("mongodb+srv://moris:allison@cluster0.xn8qv.mongodb.net/smsbot?retryWrites=true&w=majority&tls=true&tlsAllowInvalidCertificates=true")
 mydb = myclient["url"]["links"]
 
+def debugg():
+    get("")
+
 def get_random_string(l):
     return ''.join(random.choice(string.ascii_lowercase) for _ in range(l))
 
@@ -66,36 +69,32 @@ def shorten_link(url, domain):
         shorten_link(url, domain, password)
 
 
-@app.route('/captcha', methods=["GET","POST"])
+@app.route('/captcha', methods=["POST"])
 def captcha():
-    search_key = request.form.get('token')
-    t_cookie = request.cookies.get('s')
-    print("token :",search_key,"Cookie :",t_cookie)
-    if (search_key == None) and ( t_cookie == None):
-        return "No Token No cookie"
-    if request.method == "GET":
-        return captcha_html_gen(t_cookie)
-    elif request.method == "POST":
-        search_key = request.form.get('token')
+    token = request.form.get('token')
+    print("token :",token)
+    if token == None:
+        return "No Token "
+    if request.method == "POST":
         try:
             response = request.form.get('h-captcha-response')
         except:
             response = None
-        if search_key in [None ,""]:
-            return "No Token"
+        if token in [None ,""]:
+            return "Null Token"
         if (response in  [None ,""]):
-            return captcha_html_gen(search_key)
+            return captcha_html_gen(token)
         else:
             solved = check_response(response)
             if solved:
-                if search_key != None:
-                    valid , url = check_token(search_key)
+                if token != None:
+                    valid , url = check_token(token)
                     if valid:
                             if url.find("http://") != 0 and url.find("https://") != 0:
                                 url = "http://" + url
                                 return redirect(url)
                     else:
-                        return "Token not found"
+                        return "Token not valid"
                 else:
                     return "No token afer solving"
             else:
@@ -115,9 +114,7 @@ def short(path):
         mydoc = mydb.find_one(myquery)
         
         if mydoc != None:
-            resp = make_response(captcha_html_gen(path))
-            resp.set_cookie("s",search_key)
-            return resp
+            return captcha_html_gen(path)
 
         else:
             return render_template("404.html")
