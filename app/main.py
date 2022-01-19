@@ -72,7 +72,7 @@ def captcha():
     t_cookie = request.cookies.get('s')
     print("token :",search_key,"Cookie :",t_cookie)
     if (search_key == None) and ( t_cookie == None):
-        return render_template("404.html")
+        return "No Token No cookie"
     if request.method == "GET":
         return captcha_html_gen(t_cookie)
     elif request.method == "POST":
@@ -82,7 +82,7 @@ def captcha():
         except:
             response = None
         if search_key in [None ,""]:
-            return render_template("404.html")
+            return "No Token"
         if (response in  [None ,""]):
             return captcha_html_gen(search_key)
         else:
@@ -95,12 +95,12 @@ def captcha():
                                 url = "http://" + url
                                 return redirect(url)
                     else:
-                        return render_template("404.html")
+                        return "Token not found"
                 else:
-                    return render_template("404.html")
+                    return "No token afer solving"
             else:
                 return captcha_html_gen(search_key)
-            return render_template("404.html")
+            
 
 @app.route('/<path:path>', methods=["GET", "POST"])
 def short(path):
