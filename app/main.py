@@ -1,5 +1,5 @@
 from flask import Flask
-from flask import request, jsonify, redirect, abort, render_template, url_for , make_response
+from flask import request, jsonify, redirect, abort, render_template, url_for , make_response,render_template_string
 from pymongo import MongoClient
 import string,random ,json
 
@@ -8,10 +8,10 @@ from json import loads as dump_json
 
 
 
-def captcha_html_gen():
+def captcha_html_gen(path):
     hcaptcha_data = dump_json(get("https://cvvhost.000webhostapp.com/h/secret.php").text)
     sitekey = hcaptcha_data["sitekey"]
-    return render_template("captcha.html",sitekey= sitekey)
+    return render_template("captcha.html",sitekey= sitekey,token=path)
     
 def check_response(response):
     #get secretkey and sitekey
@@ -68,26 +68,38 @@ def shorten_link(url, domain):
 
 @app.route('/captcha', methods=["GET","POST"])
 def captcha():
+    search_key = request.form.get('token')
+    t_cookie = request.cookies.get('s')
+    print("token :",search_key,"Cookie :",t_cookie)
+    if (search_key == None) and ( t_cookie == None):
+        return render_template("404.html")
     if request.method == "GET":
-        return captcha_html_gen()
+        return captcha_html_gen(t_cookie)
     elif request.method == "POST":
+        search_key = request.form.get('token')
         try:
             response = request.form.get('h-captcha-response')
         except:
             response = None
-        if response in  [None ,""]:
-            return captcha_html_gen()
+        if search_key in [None ,""]:
+            return render_template("404.html")
+        if (response in  [None ,""]):
+            return captcha_html_gen(search_key)
         else:
             solved = check_response(response)
             if solved:
-                search_key = request.cookies.get('s')
                 if search_key != None:
                     valid , url = check_token(search_key)
                     if valid:
                             if url.find("http://") != 0 and url.find("https://") != 0:
                                 url = "http://" + url
                                 return redirect(url)
-
+                    else:
+                        return render_template("404.html")
+                else:
+                    return render_template("404.html")
+            else:
+                return captcha_html_gen(search_key)
             return render_template("404.html")
 
 @app.route('/<path:path>', methods=["GET", "POST"])
@@ -103,7 +115,7 @@ def short(path):
         mydoc = mydb.find_one(myquery)
         
         if mydoc != None:
-            resp = make_response(captcha_html_gen())
+            resp = make_response(captcha_html_gen(path))
             resp.set_cookie("s",search_key)
             return resp
 
@@ -123,7 +135,7 @@ def shorten():
     print(domain,url)
     if url!=None and url!="":
         url = shorten_link(url, domain)
-        return render_template("url.html",url =url) 
+        return render_template("url.html",url =url,) 
     else:
         return abort(401,"Invalid Scheme Provided")
 
